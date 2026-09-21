@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Akhil Peyyala</title>
+<meta name="description" content="Akhil Peyyala — Computer Science student at Carnegie Mellon building AI systems and the hardware/software that keeps them honest.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0b0a14;
+    --bg-deep: #060510;
+    --panel: #15132a;
+    --panel-line: rgba(139,106,255,0.22);
+    --violet: #8b6aff;
+    --violet-soft: #6a52c9;
+    --violet-glow: rgba(139,106,255,0.35);
+    --ember: #ff8a5b;
+    --ink: #f4f2fa;
+    --ink-dim: #a79fc4;
+    --ink-faint: #6f668c;
+    --serif-line: 1px solid var(--panel-line);
+    --maxw: 1080px;
+  }
+
+  *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+
+  body{
+    margin:0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'IBM Plex Sans', -apple-system, sans-serif;
+    font-size: 17px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, .display{
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    margin: 0;
+  }
+
+  a{ color: inherit; }
+
+  .wrap{
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  /* ---------- Loader: purple liquid fill ---------- */
+  #loader{
+    position: fixed;
+    inset: 0;
+    z-index: 999;
+    background: var(--bg-deep);
+    overflow: hidden;
+  }
+  #loader .liquid{
+    position: absolute;
+    left: -5%;
+    width: 110%;
+    bottom: 0;
+    height: 0%;
+    background: linear-gradient(180deg, var(--violet) 0%, var(--violet-soft) 55%, #3c2c86 100%);
+    box-shadow: 0 -18px 60px 10px var(--violet-glow);
+    transition: none;
+  }
+  #loader svg.wave{
+    position:absolute;
+    left:0; width:100%; height:40px;
+    top:-39px;
+  }
+  #loader .mark{
+    position:absolute;
+    left:50%; top:44%;
+    transform: translate(-50%,-50%);
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 15px;
+    letter-spacing: 0.02em;
+    color: var(--ink-dim);
+    opacity: 0.8;
+  }
+  #loader.done{
+    animation: loaderOut 0.6s ease forwards;
+    pointer-events: none;
+  }
+  @keyframes loaderOut{
+    to{ opacity: 0; visibility: hidden; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    #loader{ display:none; }
+  }
+
+  /* ---------- shared vitrine panel ---------- */
+  .vitrine{
+    background: linear-gradient(180deg, rgba(139,106,255,0.06), rgba(139,106,255,0.015));
+    border: 1px solid var(--panel-line);
+    border-radius: 4px;
+    position: relative;
+  }
+  .vitrine::before{
+    content:"";
+    position:absolute;
+    top:0; left:14px; right:14px; height:1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent);
+  }
+
+  /* ---------- header / nav ---------- */
+  header{
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(11,10,20,0.82);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(139,106,255,0.14);
+  }
+  nav.wrap{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    height: 64px;
+  }
+  .brand{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:600;
+    font-size: 17px;
+    color: var(--ink);
+    text-decoration:none;
+  }
+  .navlinks{
+    display:flex;
+    gap: 28px;
+    font-size: 15px;
+    color: var(--ink-dim);
+  }
+  .navlinks a{ text-decoration:none; transition: color .18s ease; }
+  .navlinks a:hover{ color: var(--violet); }
+
+  /* ---------- hero ---------- */
+  .hero{
+    position: relative;
+    padding: 108px 0 96px;
+    overflow: hidden;
+  }
+  .hero .glow{
+    position:absolute;
+    top:-160px; right:-120px;
+    width: 520px; height:520px;
+    background: radial-gradient(circle, var(--violet-glow) 0%, rgba(139,106,255,0.06) 55%, transparent 72%);
+    filter: blur(2px);
+    pointer-events:none;
+  }
+  .hero-grid{
+    display:grid;
+    grid-template-columns: 1.35fr 0.9fr;
+    gap: 56px;
+    align-items:center;
+    position:relative;
+  }
+  .eyebrow{
+    color: var(--violet);
+    font-size: 15px;
+    margin-bottom: 18px;
+    font-family:'Space Grotesk',sans-serif;
+  }
+  h1.name{
+    font-size: 58px;
+    line-height: 1.04;
+    margin-bottom: 22px;
+  }
+  .lede{
+    font-size: 19px;
+    color: var(--ink-dim);
+    max-width: 46ch;
+    margin-bottom: 30px;
+  }
+  .hero-facts{
+    display:flex;
+    gap: 26px;
+    flex-wrap: wrap;
+    font-size: 14.5px;
+    color: var(--ink-faint);
+  }
+  .hero-facts span{ color: var(--ink-dim); }
+
+  .hero-portrait{
+    position: relative;
+    justify-self:center;
+  }
+  .hero-portrait .frame{
+    width: 300px;
+    aspect-ratio: 1/1;
+    border-radius: 6px;
+    overflow:hidden;
+    position:relative;
+  }
+  .hero-portrait img{
+    width:100%; height:100%; object-fit:cover; display:block;
+    filter: saturate(0.92) contrast(1.03);
+  }
+  .hero-portrait .frame-glow{
+    position:absolute; inset:-1px;
+    border:1px solid var(--panel-line);
+    border-radius: 6px;
+    box-shadow: 0 0 0 1px rgba(139,106,255,0.08), 0 30px 60px -20px rgba(139,106,255,0.35);
+    pointer-events:none;
+  }
+  .hero-portrait .tag{
+    margin-top: 14px;
+    font-size: 13px;
+    color: var(--ink-faint);
+    text-align:center;
+  }
+
+  /* ---------- section shell ---------- */
+  section{ padding: 84px 0; border-top: 1px solid rgba(139,106,255,0.10); }
+  .kicker{
+    font-family:'Space Grotesk',sans-serif;
+    color: var(--violet);
+    font-size: 14px;
+    margin-bottom: 14px;
+  }
+  h2.htitle{
+    font-size: 32px;
+    margin-bottom: 34px;
+    max-width: 30ch;
+  }
+
+  /* ---------- about ---------- */
+  .about-grid{
+    display:grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 48px;
+    align-items:start;
+  }
+  .about-grid p{ color: var(--ink-dim); max-width: 62ch; margin: 0 0 16px; }
+  .facts{
+    padding: 22px 24px;
+  }
+  .facts dl{ margin:0; display:grid; grid-template-columns: auto 1fr; gap: 10px 16px; font-size: 14.5px; }
+  .facts dt{ color: var(--ink-faint); }
+  .facts dd{ margin:0; color: var(--ink); }
+
+  /* ---------- experience ---------- */
+  .exp-item{
+    display:grid;
+    grid-template-columns: 200px 1fr;
+    gap: 40px;
+  }
+  .exp-side{ color: var(--ink-faint); font-size: 14px; padding-top: 4px; }
+  .exp-side .role{ color: var(--ink); font-family:'Space Grotesk',sans-serif; font-size:16px; margin-bottom:6px; }
+  .exp-body p{ color: var(--ink-dim); max-width: 64ch; margin: 0 0 20px; }
+  .exp-body ul{ margin:0; padding: 20px 22px; list-style:none; }
+  .exp-body li{
+    position:relative;
+    padding-left: 20px;
+    margin-bottom: 14px;
+    color: var(--ink);
+    font-size: 15.5px;
+  }
+  .exp-body li:last-child{ margin-bottom:0; }
+  .exp-body li::before{
+    content:"";
+    position:absolute; left:0; top:9px;
+    width:6px; height:6px;
+    background: var(--violet);
+    border-radius:1px;
+    transform: rotate(45deg);
+  }
+
+  /* ---------- projects ---------- */
+  .proj-hero{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 44px;
+    align-items:center;
+    margin-bottom: 30px;
+  }
+  .proj-hero .shot{
+    position:relative;
+    border-radius: 6px;
+    overflow:hidden;
+    border: 1px solid var(--panel-line);
+  }
+  .proj-hero .shot img{ width:100%; display:block; }
+  .proj-hero .shot::after{
+    content:"";
+    position:absolute; inset:0;
+    box-shadow: inset 0 0 60px 10px rgba(11,10,20,0.5);
+    pointer-events:none;
+  }
+  .award{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    font-size: 13.5px;
+    color: var(--ember);
+    background: rgba(255,138,91,0.09);
+    border: 1px solid rgba(255,138,91,0.3);
+    padding: 6px 12px;
+    border-radius: 100px;
+    margin-bottom: 18px;
+  }
+  .proj-copy h3{ font-size: 24px; margin-bottom: 14px; }
+  .proj-copy p{ color: var(--ink-dim); margin: 0 0 16px; }
+  .stack{
+    display:flex; flex-wrap:wrap; gap:8px;
+    margin-top: 18px;
+  }
+  .stack span{
+    font-size: 12.5px;
+    color: var(--ink-dim);
+    border: 1px solid var(--panel-line);
+    padding: 5px 10px;
+    border-radius: 4px;
+  }
+  .proj-gallery{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  .proj-gallery figure{
+    margin:0;
+    border-radius:6px;
+    overflow:hidden;
+    border: 1px solid var(--panel-line);
+  }
+  .proj-gallery img{ width:100%; display:block; }
+  .proj-gallery figcaption{
+    padding: 10px 14px;
+    font-size: 13px;
+    color: var(--ink-faint);
+    background: var(--panel);
+  }
+
+  /* ---------- skills ---------- */
+  .skills-grid{
+    display:grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+  }
+  .skill-card{ padding: 20px; }
+  .skill-card h4{
+    font-family:'Space Grotesk',sans-serif;
+    font-size: 14px;
+    color: var(--violet);
+    margin: 0 0 12px;
+    font-weight: 500;
+  }
+  .skill-card ul{ list-style:none; margin:0; padding:0; }
+  .skill-card li{ font-size: 14.5px; color: var(--ink-dim); margin-bottom: 6px; }
+
+  /* ---------- contact / footer ---------- */
+  footer{
+    border-top: 1px solid rgba(139,106,255,0.10);
+    padding: 76px 0 48px;
+  }
+  footer h2.htitle{ margin-bottom: 16px; }
+  footer p.lede{ margin-bottom: 34px; }
+  .contact-row{
+    display:flex;
+    gap: 28px;
+    flex-wrap:wrap;
+    margin-bottom: 56px;
+  }
+  .contact-row a{
+    text-decoration:none;
+    font-family:'Space Grotesk',sans-serif;
+    font-size: 15.5px;
+    color: var(--ink);
+    border-bottom: 1px solid var(--panel-line);
+    padding-bottom: 3px;
+    transition: color .18s ease, border-color .18s ease;
+  }
+  .contact-row a:hover{ color: var(--violet); border-color: var(--violet); }
+  .resume-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    background: var(--violet);
+    color: #0b0a14 !important;
+    border: none !important;
+    padding: 9px 16px;
+    border-radius: 4px;
+    font-weight: 600;
+  }
+  .resume-btn:hover{ background: #a58bff; color:#0b0a14 !important; }
+  .fineprint{ font-size: 13px; color: var(--ink-faint); }
+
+  a:focus-visible, button:focus-visible{
+    outline: 2px solid var(--violet);
+    outline-offset: 3px;
+  }
+
+  /* ---------- responsive ---------- */
+  @media (max-width: 860px){
+    .hero-grid{ grid-template-columns: 1fr; }
+    .hero-portrait{ order:-1; justify-self:flex-start; }
+    .hero-portrait .frame{ width: 160px; }
+    h1.name{ font-size: 40px; }
+    .about-grid{ grid-template-columns: 1fr; }
+    .exp-item{ grid-template-columns: 1fr; gap: 16px; }
+    .proj-hero{ grid-template-columns: 1fr; }
+    .proj-gallery{ grid-template-columns: 1fr; }
+    .skills-grid{ grid-template-columns: 1fr 1fr; }
+    .wrap{ padding: 0 20px; }
+    .navlinks{ gap: 16px; font-size: 13.5px; }
+  }
+</style>
+</head>
+<body>
+
+<div id="loader" aria-hidden="true">
+  <div class="mark">loading&nbsp;akhil.dev</div>
+  <div class="liquid" id="liquid">
+    <svg class="wave" viewBox="0 0 1200 40" preserveAspectRatio="none">
+      <path d="M0,20 C150,45 350,-5 600,20 C850,45 1050,-5 1200,20 L1200,40 L0,40 Z" fill="#8b6aff"/>
+    </svg>
+  </div>
+</div>
+
+<header>
+  <nav class="wrap">
+    <a class="brand" href="#top">Akhil Peyyala</a>
+    <div class="navlinks">
+      <a href="#about">About</a>
+      <a href="#experience">Experience</a>
+      <a href="#projects">Projects</a>
+      <a href="#skills">Skills</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
+</header>
+
+<main id="top">
+
+  <section class="hero" style="border-top:none; padding-top:64px;">
+    <div class="glow"></div>
+    <div class="wrap hero-grid">
+      <div>
+        <div class="eyebrow">Computer Science, Carnegie Mellon &middot; Class of 2028</div>
+        <h1 class="name">Akhil&nbsp;Peyyala</h1>
+        <p class="lede">I build systems that turn raw signal into trustworthy action — from a fraud-detection pipeline that watches its own inputs for drift, to a steak that cooks itself and tells your phone how it's doing.</p>
+        <div class="hero-facts">
+          <div><span>Currently</span> Software Engineering Intern, PNC Financial Services</div>
+          <div><span>Focus</span> Machine Learning &amp; applied systems</div>
+        </div>
+      </div>
+      <div class="hero-portrait">
+        <div class="frame">
+          <div class="frame-glow"></div>
+          <img src="assets/img/profile.jpg" alt="Portrait of Akhil Peyyala">
+        </div>
+        <div class="tag">Pittsburgh, PA</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="wrap about-grid">
+      <div>
+        <div class="kicker">About</div>
+        <h2 class="htitle">Comfortable in the model and in the wiring</h2>
+        <p>I'm a Computer Science student at Carnegie Mellon, concentrating in Machine Learning. I'm drawn to the boundary between what a model predicts and what actually has to happen in the real world because of it — flagging when a fraud model's inputs have quietly drifted, or getting an iPhone app to talk to a breadboard over Bluetooth in real time.</p>
+        <p>I'm currently a Software Engineering Intern at PNC Financial Services, working across AI tooling and fraud-detection infrastructure. Outside of that, I'm usually building something with my hands — most recently, an automated steak-cooking device that earned a CrowdStrike innovation award at CMU's Build18.</p>
+      </div>
+      <div class="vitrine facts">
+        <dl>
+          <dt>School</dt><dd>Carnegie Mellon University</dd>
+          <dt>Major</dt><dd>Computer Science, ML Concentration</dd>
+          <dt>Graduating</dt><dd>May 2028</dd>
+          <dt>Interests</dt><dd>Applied ML, agentic systems, embedded &amp; hardware</dd>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <section id="experience">
+    <div class="wrap">
+      <div class="kicker">Experience</div>
+      <h2 class="htitle">PNC Financial Services</h2>
+      <div class="exp-item">
+        <div class="exp-side">
+          <div class="role">Software Engineering Intern</div>
+          May 2026 — Present
+        </div>
+        <div class="exp-body">
+          <p>Most of my work at PNC sits at the seam between AI systems and the infrastructure that keeps them honest — building tools that act on unstructured data, and the monitoring that catches them when they start acting on bad data.</p>
+          <ul class="vitrine">
+            <li>Built an AI-powered engineering platform on Microsoft Copilot Studio, Power Automate, and Microsoft 365 that read team communications and turned them into action items and task summaries automatically, cutting down the manual overhead of tracking what needed to get done.</li>
+            <li>Built a Hopsworks-based feature monitoring and drift-detection system for debit card fraud detection — deriving features like average transaction amount from raw data, comparing their distributions against training-data baselines, and generating alerts when drift crossed a configurable threshold, using Python, PySpark, and Jupyter Notebooks.</li>
+            <li>Prepared 20+ enterprise repositories for a Bitbucket-to-GitHub Enterprise migration: validating readiness, resolving blockers like permissions gaps and merge conflicts, and writing the documentation that onboarded other teams onto the new workflow.</li>
+            <li>Worked across engineering, platform, and vendor teams to troubleshoot CI/CD, repository, security-scanning, and feature-store issues, and presented findings at technical capstone demonstrations.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects">
+    <div class="wrap">
+      <div class="kicker">Project</div>
+      <h2 class="htitle">Steak N' Bake</h2>
+
+      <div class="proj-hero">
+        <div class="shot">
+          <img src="assets/img/steak-hero.jpg" alt="A steak suspended under a heat lamp inside the Steak N' Bake device, glowing orange from the cooking element">
+        </div>
+        <div class="proj-copy">
+          <div class="award">CrowdStrike "High Flying" Award — CMU Build18</div>
+          <h3>A steak that cooks itself, and tells your phone about it</h3>
+          <p>Steak N' Bake is a custom-built, automated steak-cooking device: a countertop rig that suspends a steak under a heat lamp and cooks it to spec while you track the temperature climb from your phone. I own the software side end to end — a SwiftUI iOS app to control and monitor the device, and the Bluetooth Low Energy layer that lets it talk to the Arduino-controlled hardware in real time.</p>
+          <p>I led all of the software structure, implementation, and debugging, working closely with the teammates building the physical rig, and built out live telemetry — temperature streaming and connection status — so the cook is something you can actually watch happen, not just wait on.</p>
+          <div class="stack">
+            <span>SwiftUI</span>
+            <span>Bluetooth Low Energy</span>
+            <span>Arduino</span>
+            <span>Real-time telemetry</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="proj-gallery">
+        <figure>
+          <img src="assets/img/steak-wiring.jpg" alt="Close-up of the Arduino, breadboard, and wiring controlling the Steak N' Bake device, with the steak visible cooking under the heat lamp">
+          <figcaption>The Arduino-controlled hardware the app talks to over BLE.</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/img/steak-team.jpg" alt="Akhil and teammates presenting the Steak N' Bake device and app at CMU Build18, with the live app screen visible on a phone">
+          <figcaption>Demoing the device and app live at CMU Build18.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="wrap">
+      <div class="kicker">Skills</div>
+      <h2 class="htitle">What I build with</h2>
+      <div class="skills-grid">
+        <div class="vitrine skill-card">
+          <h4>Languages</h4>
+          <ul><li>Java</li><li>Python</li><li>C / C++</li><li>Object-oriented programming</li></ul>
+        </div>
+        <div class="vitrine skill-card">
+          <h4>AI &amp; ML</h4>
+          <ul><li>AI solution implementation</li><li>Large dataset handling</li><li>Hopsworks</li><li>Claude Code</li></ul>
+        </div>
+        <div class="vitrine skill-card">
+          <h4>Web &amp; Mobile</h4>
+          <ul><li>React.js</li><li>Swift / SwiftUI</li><li>HTML</li></ul>
+        </div>
+        <div class="vitrine skill-card">
+          <h4>Tools &amp; Collaboration</h4>
+          <ul><li>Git / GitHub</li><li>Power Automate</li><li>Jupyter</li><li>Agile / Jira</li></ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer id="contact">
+    <div class="wrap">
+      <div class="kicker">Contact</div>
+      <h2 class="htitle">Let's talk</h2>
+      <p class="lede">I'm looking for software engineering internships for Summer 2027. If something here is relevant to what your team is building, I'd like to hear from you.</p>
+      <div class="contact-row">
+        <a href="mailto:apeyyala21@gmail.com">apeyyala21@gmail.com</a>
+        <a href="tel:+14122961415">(412) 296-1415</a>
+        <a href="#" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="#" target="_blank" rel="noopener">GitHub</a>
+        <a class="resume-btn" href="assets/Akhil_Peyyala_Resume.pdf" download>Download résumé</a>
+      </div>
+      <div class="fineprint">Akhil Peyyala &middot; Pittsburgh, PA &middot; Updated 2026</div>
+    </div>
+  </footer>
+
+</main>
+
+<script>
+(function(){
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var loader = document.getElementById('loader');
+  var liquid = document.getElementById('liquid');
+  if(reduce || !loader){ if(loader) loader.style.display='none'; return; }
+
+  var start = null;
+  var duration = 1400; // ms to fill
+  function step(ts){
+    if(!start) start = ts;
+    var p = Math.min((ts - start) / duration, 1);
+    // ease-out
+    var eased = 1 - Math.pow(1 - p, 2.2);
+    liquid.style.height = (eased * 100) + '%';
+    if(p < 1){
+      requestAnimationFrame(step);
+    } else {
+      setTimeout(function(){
+        loader.classList.add('done');
+        setTimeout(function(){ loader.style.display = 'none'; }, 650);
+      }, 220);
+    }
+  }
+  requestAnimationFrame(step);
+})();
+</script>
+
+</body>
+</html>
