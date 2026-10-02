@@ -308,6 +308,28 @@
     border-radius: 100px;
     margin-bottom: 18px;
   }
+  .projtag{
+    display:inline-flex;
+    align-items:center;
+    font-size: 13.5px;
+    color: var(--ink-dim);
+    background: rgba(139,106,255,0.08);
+    border: 1px solid var(--panel-line);
+    padding: 6px 12px;
+    border-radius: 100px;
+    margin-bottom: 18px;
+  }
+  .proj-name{
+    font-family:'Space Grotesk',sans-serif;
+    color: var(--violet);
+    font-size: 15px;
+    margin-bottom: 10px;
+  }
+  .project-divider{
+    height:1px;
+    background: rgba(139,106,255,0.14);
+    margin: 72px 0;
+  }
   .proj-copy h3{ font-size: 24px; margin-bottom: 14px; }
   .proj-copy p{ color: var(--ink-dim); margin: 0 0 16px; }
   .stack{
@@ -332,13 +354,31 @@
     overflow:hidden;
     border: 1px solid var(--panel-line);
   }
-  .proj-gallery img{ width:100%; display:block; }
+  .proj-gallery img, .proj-gallery video{ width:100%; display:block; background:#000; }
+  .proj-hero .shot video{ width:100%; display:block; background:#000; }
   .proj-gallery figcaption{
     padding: 10px 14px;
     font-size: 13px;
     color: var(--ink-faint);
     background: var(--panel);
   }
+  .proj-gallery .repo-figure{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    min-height: 100%;
+    background: linear-gradient(180deg, rgba(139,106,255,0.08), rgba(139,106,255,0.02));
+    padding: 20px;
+  }
+  .proj-gallery .repo-figure a{
+    font-family:'Space Grotesk',sans-serif;
+    font-size: 15px;
+    color: var(--violet);
+    text-decoration:none;
+    border-bottom: 1px solid var(--violet);
+    padding-bottom: 3px;
+  }
+  .proj-gallery .repo-figure a:hover{ color: #a58bff; border-color: #a58bff; }
 
   /* ---------- skills ---------- */
   .skills-grid{
@@ -506,36 +546,87 @@
 
   <section id="projects">
     <div class="wrap">
-      <div class="kicker">Project</div>
-      <h2 class="htitle">Steak N' Bake</h2>
+      <div class="kicker">Projects</div>
+      <h2 class="htitle">Things I've built outside of class</h2>
 
-      <div class="proj-hero">
-        <div class="shot">
-          <img src="assets/img/steak-hero.jpg" alt="A steak suspended under a heat lamp inside the Steak N' Bake device, glowing orange from the cooking element">
-        </div>
-        <div class="proj-copy">
-          <div class="award">CrowdStrike "High Flying" Award — CMU Build18</div>
-          <h3>A steak that cooks itself, and tells your phone about it</h3>
-          <p>Steak N' Bake is a custom-built, automated steak-cooking device: a countertop rig that suspends a steak under a heat lamp and cooks it to spec while you track the temperature climb from your phone. I own the software side end to end — a SwiftUI iOS app to control and monitor the device, and the Bluetooth Low Energy layer that lets it talk to the Arduino-controlled hardware in real time.</p>
-          <p>I led all of the software structure, implementation, and debugging, working closely with the teammates building the physical rig, and built out live telemetry — temperature streaming and connection status — so the cook is something you can actually watch happen, not just wait on.</p>
-          <div class="stack">
-            <span>SwiftUI</span>
-            <span>Bluetooth Low Energy</span>
-            <span>Arduino</span>
-            <span>Real-time telemetry</span>
+      <div class="project-block">
+        <div class="proj-hero">
+          <div class="shot">
+            <img src="assets/img/steak-hero.jpg" alt="A steak suspended under a heat lamp inside the Steak N' Bake device, glowing orange from the cooking element">
           </div>
+          <div class="proj-copy">
+            <div class="proj-name">Steak N' Bake</div>
+            <div class="award">CrowdStrike "High Flying" Award — CMU Build18</div>
+            <h3>A steak that cooks itself, and tells your phone about it</h3>
+            <p>Steak N' Bake is a custom-built, automated steak-cooking device: a countertop rig that suspends a steak under a heat lamp and cooks it to spec while you track the temperature climb from your phone. I own the software side end to end — a SwiftUI iOS app to control and monitor the device, and the Bluetooth Low Energy layer that lets it talk to the Arduino-controlled hardware in real time.</p>
+            <p>I led all of the software structure, implementation, and debugging, working closely with the teammates building the physical rig, and built out live telemetry — temperature streaming and connection status — so the cook is something you can actually watch happen, not just wait on.</p>
+            <div class="stack">
+              <span>SwiftUI</span>
+              <span>Bluetooth Low Energy</span>
+              <span>Arduino</span>
+              <span>Real-time telemetry</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="proj-gallery">
+          <figure>
+            <img src="assets/img/steak-wiring.jpg" alt="Close-up of the Arduino, breadboard, and wiring controlling the Steak N' Bake device, with the steak visible cooking under the heat lamp">
+            <figcaption>The Arduino-controlled hardware the app talks to over BLE.</figcaption>
+          </figure>
+          <figure>
+            <img src="assets/img/steak-team.jpg" alt="Akhil and teammates presenting the Steak N' Bake device and app at CMU Build18, with the live app screen visible on a phone">
+            <figcaption>Demoing the device and app live at CMU Build18.</figcaption>
+          </figure>
         </div>
       </div>
 
-      <div class="proj-gallery">
-        <figure>
-          <img src="assets/img/steak-wiring.jpg" alt="Close-up of the Arduino, breadboard, and wiring controlling the Steak N' Bake device, with the steak visible cooking under the heat lamp">
-          <figcaption>The Arduino-controlled hardware the app talks to over BLE.</figcaption>
-        </figure>
-        <figure>
-          <img src="assets/img/steak-team.jpg" alt="Akhil and teammates presenting the Steak N' Bake device and app at CMU Build18, with the live app screen visible on a phone">
-          <figcaption>Demoing the device and app live at CMU Build18.</figcaption>
-        </figure>
+      <div class="project-divider"></div>
+
+      <div class="project-block">
+        <div class="proj-hero">
+          <div class="shot">
+            <video controls preload="metadata" poster="assets/img/aerial-gameplay-1-poster.jpg">
+              <source src="assets/video/aerial-gameplay-1.mp4" type="video/mp4">
+            </video>
+          </div>
+          <div class="proj-copy">
+            <div class="proj-name">Aerial Blitz</div>
+            <div class="projtag">Game Creation Society · Winter 2025 – June 2026</div>
+            <h3>A Tron-style arena fight where the only way to move is a grappling hook</h3>
+            <p>Aerial Blitz is a 3D PvP arena game I built in Unreal Engine 5.5 with a three-person Game Creation Society team. Think Tron, but airborne: each player drags a light trail that grows as they collect coins scattered through the arena, and the only way to get around is a grappling hook — swinging from surface to surface instead of just running or flying.</p>
+            <p>I own the movement feel and the multiplayer side: a velocity and acceleration system that lets players build up speed to close the distance on an opponent, the game's loading screens, and local multiplayer over a shared wifi network or hotspot, so two people can actually sit down and play against each other. The whole game is built in Blueprints, Unreal's visual scripting system.</p>
+            <div class="stack">
+              <span>Unreal Engine 5.5</span>
+              <span>Blueprints</span>
+              <span>Multiplayer networking</span>
+              <span>Velocity &amp; acceleration systems</span>
+              <span>Grappling hook physics</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="proj-gallery">
+          <figure>
+            <video controls preload="metadata" poster="assets/img/aerial-gameplay-2-poster.jpg">
+              <source src="assets/video/aerial-gameplay-2.mp4" type="video/mp4">
+            </video>
+            <figcaption>A match in progress, captured live at the Game Creation Society convention.</figcaption>
+          </figure>
+          <figure>
+            <video controls preload="metadata">
+              <source src="assets/video/aerial-gameover.mp4" type="video/mp4">
+            </video>
+            <figcaption>The match-end screen, with a one-tap rematch.</figcaption>
+          </figure>
+          <figure>
+            <img src="assets/img/aerial-blueprint.jpg" alt="Unreal Engine Blueprint editor showing the player controller event graph for Aerial Blitz, including the ready-state sync and HUD setup">
+            <figcaption>The player controller graph — loading characters, syncing ready state, and spawning the HUD.</figcaption>
+          </figure>
+          <figure class="repo-figure">
+            <a href="https://github.com/subzero258/AerialBlitz" target="_blank" rel="noopener">View the repository on GitHub →</a>
+          </figure>
+        </div>
       </div>
     </div>
   </section>
